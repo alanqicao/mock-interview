@@ -4,14 +4,14 @@ class Api::ItemsController < ApplicationController
   def index
     render json: Item.all
   end
-
+  
   def create
+    binding.pry
     item = Item.new(item_params)
-
     if item.save
       render json: item
     else
-      render json:{message:'sorry not working'}
+      render json:item.errors,status:422
     end
 
   end

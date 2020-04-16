@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import axios from "axios"
-import { Card,Image,Icon,Button } from "semantic-ui-react";
+import { Card,Image,Icon,Button, ButtonGroup } from "semantic-ui-react";
+import ItemForm from './ItemForm'
 
 const App = ()=> {
 
   const [items,setItems] = useState([]);
   const [sort, setSort] = useState(null)
+  const [toggle,setToggle] = useState(false)
  
 
 useEffect(()=>{
@@ -35,7 +37,7 @@ const sortLikebyleast=()=>{
 }
 
 
-
+const addItem = (item) =>setItems([item,...items])
 
 
 
@@ -68,25 +70,30 @@ const renderItems=()=>{
 
   return (
     <>
-      <Button primary onClick ={sortLikebymost} >Sort by most</Button>
+    <div>
+      <ButtonGroup>
+      <Button basic color='red' onClick ={sortLikebymost} >Sort by most likes</Button>
+      <Button.Or />
+      <Button positive onClick ={sortLikebyleast} >Sort by least likes</Button>
+      </ButtonGroup>
+     
+      {toggle && <ItemForm addItem={addItem} toggleForm={setToggle}/>}
+      <Button onClick = {()=>setToggle(!toggle) }>
+        {toggle?"Close Form":"ADD Item"}
+        </Button>
     <br/>
-      <Button primary onClick ={sortLikebyleast} >Sort by least</Button>
+     
+    </div>
     <br/>
-    
+    <br/>
+  
 <Card.Group   >
    {sort? renderItems(): renderItems()}
+   
    </Card.Group>
    </>
   )
 }
-
-// const RowCenter = styled.div`
-
-// `
-// t.string "name"
-// t.string "image"
-// t.text "description"
-// t.integer "likes"
 
 
 
